@@ -6,23 +6,27 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-if len(sys.argv) <= 1 :
+if len(sys.argv) <= 2 :
     print("[!] No parameter found. Aborting.")
-    print("[!] Please provide an IP range or file.")
-    print("[EXAMPLE] > python3 findSMB.py 192.168.0.0/24")
-    print("[EXAMPLE] > python3 findSMB.py 192.168.0.123")
-    print("[EXAMPLE] > python3 findSMB.py IPS.txt")
+    print("[!] Please provide an IP range or file and ports to scan.")
+    print("[EXAMPLE] > python3 pscan.py 192.168.0.0/24 80,443")
+    print("[EXAMPLE] > python3 pscan.py 192.168.0.123 445")
+    print("[EXAMPLE] > python3 pscan.py IPS.txt 135,139,3389")
     sys.exit()
-arg = sys.argv[-1]
+arg = sys.argv[-2]
 print("*** Scanning range " + arg + " ***")
-ports = [445]
+
+arg2 = sys.argv[-1]
+ports = arg2.split(",")
 
 ########################################################################
 MAX_WORKERS = 20    # MAX CONCURRENT REQUESTS
 VERBOSE = False     # False : TO DISPLAY ONLY OPEN PORTS
 ########################################################################
 
-SMB_IP = []
+RESULTS_IP = {}
+for port in ports:
+    RESULTS_IP[port] = []
 
 def scan_ip(ip_address):
     if VERBOSE :
@@ -30,18 +34,13 @@ def scan_ip(ip_address):
     for port in ports:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.settimeout(0.2)
-        result = sock.connect_ex((ip_address, port))
+        result = sock.connect_ex((ip_address, int(port)))
         if result == 0:
-            print(f"[+] SMB FOUND on {ip_address}:{port}")
-            SMB_IP.append(ip_address)
+            print(f"[+] PORT FOUND on {ip_address}:{port}")
+            RESULTS_IP[port].append(ip_address)
         else:
             pass
         sock.close()
-
-def log_result(IP):
-    file=open("PSCAN_open_SMB.txt","a+")
-    file.write(IP+"\n")
-    file.close()
 
 try:
     ip_address = ip_address(arg)
@@ -73,9 +72,13 @@ print("----------- RESULT -------------")
 print("--------------------------------")
 
 
-if len(SMB_IP) == 0 :
-    print("No SMB found")
-else :
-    for ip in SMB_IP :
-        print(ip)
-        log_result(ip)
+for key in RESULTS_IP.keys():
+    if len(RESULTS_IP[key]) == 0:
+        print(f"All ports {key} are closed/filtered\n\n")
+    else:
+        print(f"\n[+] MACHINES WITH PORT {key} OPEN")
+        with open(f"PScan_port_{key}.txt", "w") as file:
+            for ip in RESULTS_IP[key]:
+                print(ip)
+                file.write(ip+"\n")
+        file.close()
