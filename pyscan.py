@@ -9,9 +9,9 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 if len(sys.argv) <= 2 :
     print("[!] No parameter found. Aborting.")
     print("[!] Please provide an IP range or file and ports to scan.")
-    print("[EXAMPLE] > python3 pscan.py 192.168.0.0/24 80,443")
-    print("[EXAMPLE] > python3 pscan.py 192.168.0.123 445")
-    print("[EXAMPLE] > python3 pscan.py IPS.txt 135,139,3389")
+    print("[EXAMPLE] > python3 pyscan.py 192.168.0.0/24 80,443")
+    print("[EXAMPLE] > python3 pyscan.py 192.168.0.123 445")
+    print("[EXAMPLE] > python3 pyscan.py IPS.txt 135,139,3389")
     sys.exit()
 arg = sys.argv[-2]
 print("*** Scanning range " + arg + " ***")
@@ -77,7 +77,7 @@ for key in RESULTS_IP.keys():
         print(f"All ports {key} are closed/filtered\n\n")
     else:
         print(f"\n[+] MACHINES WITH PORT {key} OPEN")
-        with open(f"PScan_port_{key}.txt", "w") as file:
+        with open(f"PyScan_port_{key}.txt", "w") as file:
             for ip in RESULTS_IP[key]:
                 print(ip)
                 file.write(ip+"\n")
