@@ -18,6 +18,7 @@ print("*** Scanning range " + arg + " ***")
 
 arg2 = sys.argv[-1]
 ports = arg2.split(",")
+OUTPUT_FILE = '-o' in sys.argv
 
 ########################################################################
 MAX_WORKERS = 20    # MAX CONCURRENT REQUESTS
@@ -77,8 +78,9 @@ for key in RESULTS_IP.keys():
         print(f"All ports {key} are closed/filtered\n\n")
     else:
         print(f"\n[+] MACHINES WITH PORT {key} OPEN")
-        with open(f"PyScan_port_{key}.txt", "w") as file:
-            for ip in RESULTS_IP[key]:
+        for ip in RESULTS_IP[key]:
                 print(ip)
-                file.write(ip+"\n")
-        file.close()
+                if OUTPUT_FILE:
+                    with open(f"PyScan_port_{key}.txt", "a") as file:
+                        file.write(ip+"\n")
+                    file.close()
