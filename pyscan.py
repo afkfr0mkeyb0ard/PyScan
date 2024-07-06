@@ -7,11 +7,11 @@ import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 if len(sys.argv) <= 2 :
-    print("[!] No parameter found. Aborting.")
-    print("[!] Please provide an IP range or file and ports to scan.")
-    print("[EXAMPLE] > python3 pyscan.py 192.168.0.0/24 80,443")
-    print("[EXAMPLE] > python3 pyscan.py 192.168.0.123 445")
-    print("[EXAMPLE] > python3 pyscan.py IPS.txt 135,139,3389")
+    print("[!] Not enough parameters found. Aborting.")
+    print("> python3 pyscan.py target ports [-o]")
+    print("target      single IP, range or file of IP")
+    print("ports       list of ports separated by comma") 
+    print("-o          output the IP with open ports to file")
     sys.exit()
 arg = sys.argv[1]
 print("*** Scanning range " + arg + " ***")
