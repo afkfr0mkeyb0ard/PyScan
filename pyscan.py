@@ -75,7 +75,7 @@ print("--------------------------------")
 
 for key in RESULTS_IP.keys():
     if len(RESULTS_IP[key]) == 0:
-        print(f"All ports {key} are closed/filtered\n\n")
+        print(f"\n[-] All ports {key} are closed/filtered\n\n")
     else:
         print(f"\n[+] MACHINES WITH PORT {key} OPEN")
         for ip in RESULTS_IP[key]:
