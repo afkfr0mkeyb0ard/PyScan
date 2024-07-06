@@ -8,10 +8,10 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 if len(sys.argv) <= 2 :
     print("[!] Not enough parameters found. Aborting.")
-    print("> python3 pyscan.py target ports [-o]")
-    print("target      single IP, range or file of IP")
-    print("ports       list of ports separated by comma") 
-    print("-o          output the IP with open ports to file")
+    print("Usage: python3 pyscan.py target ports [-o]")
+    print("  target             	single IP, range or file of IP")
+    print("  ports             	list of ports separated by comma") 
+    print("  -o             	output the IP with open ports to file")
     sys.exit()
 arg = sys.argv[1]
 print("*** Scanning range " + arg + " ***")
