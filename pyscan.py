@@ -13,10 +13,10 @@ if len(sys.argv) <= 2 :
     print("[EXAMPLE] > python3 pyscan.py 192.168.0.123 445")
     print("[EXAMPLE] > python3 pyscan.py IPS.txt 135,139,3389")
     sys.exit()
-arg = sys.argv[-2]
+arg = sys.argv[1]
 print("*** Scanning range " + arg + " ***")
 
-arg2 = sys.argv[-1]
+arg2 = sys.argv[2]
 ports = arg2.split(",")
 OUTPUT_FILE = '-o' in sys.argv
 
