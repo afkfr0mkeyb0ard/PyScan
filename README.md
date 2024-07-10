@@ -1,5 +1,5 @@
 ## PyScan
-Fast port scanner for various services
+Fast TCP port scanner in Python
 
 ### Command
 ```
