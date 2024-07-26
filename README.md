@@ -6,7 +6,7 @@ Fast TCP port scanner in Python
 > python3 pyscan.py target ports [-o]
 target      single IP, range or file of IP
 ports       list of ports separated by comma 
--o          output the IP with open ports to file
+-o          output the results ordered by open port (ports_80.txt, ...)
 ```
 
 ### Examples
